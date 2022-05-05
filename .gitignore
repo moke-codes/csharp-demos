@@ -220,6 +220,9 @@ project.lock.json
 *.feature.xlsx.*
 *.Specs_*.html
 
+# Benchmark Artifacts
+**/BenchmarkDotNet.Artifacts/*
+
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
