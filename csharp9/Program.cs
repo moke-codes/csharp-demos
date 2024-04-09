@@ -46,7 +46,5 @@ record Name(string First, string Second)
 
 record Person(Name Name = default, int Age = 0)
 {
-    Person(Name name, string age) 
-        : this(name, Int32.Parse(age)) {}
     public string FullName => $"{this.Name.First} {this.Name.Second}";
 };
