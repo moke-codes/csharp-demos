@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Demo</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/theme.css">
+    <script src="/js/auth.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="card-container">
+            <div class="header-section">
+                <h2 class="heading">
+                    Sign in to your account
+                </h2>
+            </div>
+            <form class="form-stack" 
+                  onsubmit="handleLogin(event)"
+                  id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="sr-only">Email address</label>
+                    <input id="email" name="email" type="email" required 
+                        class="input" 
+                        placeholder="Email address">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="sr-only">Password</label>
+                    <div class="password-input-wrapper">
+                        <input id="password" name="password" type="password" required 
+                            class="input password-input" 
+                            placeholder="Password">
+                        <span class="toggle-password" 
+                              onclick="togglePassword('password')" 
+                              id="togglePassword"
+                              role="button"
+                              aria-label="Show password"
+                              tabindex="0">
+                            <img src="/icons/eye.svg" alt="Toggle password visibility" class="w-5 h-5">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="checkbox-wrapper">
+                        <input id="remember-me" name="rememberMe" type="checkbox" 
+                            class="checkbox">
+                        <label for="remember-me" class="text-sm text-gray-900">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div class="text-sm">
+                        <a href="/forgot-password.html" class="link">
+                            Forgot your password?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="button button-primary">
+                        Sign in
+                    </button>
+                </div>
+            </form>
+
+            <div id="message" class="message"></div>
+
+            <div class="text-center">
+                <p class="subheading">
+                    Don't have an account?
+                    <a href="/register.html" class="link">
+                        Register
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Check if user is already logged in
+        function checkAuth() {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            if (token) {
+                window.location.href = '/dashboard.html';
+            }
+        }
+
+        // Check authentication on page load
+        checkAuth();
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                rememberMe: document.getElementById('remember-me').checked
+            };
+
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    // Store the token based on remember me option
+                    if (formData.rememberMe) {
+                        localStorage.setItem('token', data.token);
+                    } else {
+                        sessionStorage.setItem('token', data.token);
+                    }
+                    showSuccess('Login successful! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+                } else if (data.message) {
+                    showError(data.message);
+                }
+            })
+            .catch(error => {
+                showError('An error occurred. Please try again.');
+            });
+        }
+    </script>
+</body>
+</html> 

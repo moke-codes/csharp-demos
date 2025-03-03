@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Login Demo</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/theme.css">
+    <script src="/js/auth.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="card-container">
+            <div class="header-section">
+                <h2 class="heading">
+                    Create your account
+                </h2>
+                <p class="alternative-action">
+                    Or
+                    <a href="/" class="link">
+                        sign in to your account
+                    </a>
+                </p>
+            </div>
+            <form class="form-stack" 
+                  onsubmit="handleRegister(event)"
+                  id="registerForm">
+                <div class="form-group">
+                    <label for="firstName" class="sr-only">First Name</label>
+                    <input id="firstName" name="firstName" type="text" required 
+                        class="input" 
+                        placeholder="First Name">
+                </div>
+                <div class="form-group">
+                    <label for="lastName" class="sr-only">Last Name</label>
+                    <input id="lastName" name="lastName" type="text" required 
+                        class="input" 
+                        placeholder="Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="sr-only">Email address</label>
+                    <input id="email" name="email" type="email" required 
+                        class="input" 
+                        placeholder="Email address">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="sr-only">Password</label>
+                    <div class="password-input-wrapper">
+                        <input id="password" name="password" type="password" required 
+                            class="input password-input" 
+                            placeholder="Password">
+                        <span class="toggle-password" 
+                              onclick="togglePassword('password')" 
+                              id="togglePassword"
+                              role="button"
+                              aria-label="Show password"
+                              tabindex="0">
+                            <img src="/icons/eye.svg" alt="Toggle password visibility" class="w-5 h-5">
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                    <div class="password-input-wrapper">
+                        <input id="confirmPassword" name="confirmPassword" type="password" required 
+                            class="input password-input" 
+                            placeholder="Confirm Password">
+                        <span class="toggle-password" 
+                              onclick="togglePassword('confirmPassword')" 
+                              id="toggleConfirmPassword"
+                              role="button"
+                              aria-label="Show password"
+                              tabindex="0">
+                            <img src="/icons/eye.svg" alt="Toggle password visibility" class="w-5 h-5">
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="button button-primary">
+                        Register
+                    </button>
+                </div>
+            </form>
+
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+    <script>
+        // Check authentication on page load
+        checkAuth();
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                showError('Passwords do not match');
+                return;
+            }
+
+            const formData = {
+                email: document.getElementById('email').value,
+                username: document.getElementById('username').value,
+                password: password
+            };
+
+            fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    showSuccess('Registration successful! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+                } else if (data.errors) {
+                    const errorMessage = formatPasswordError(data.errors);
+                    showError(errorMessage);
+                } else if (data.message) {
+                    showError(data.message);
+                }
+            })
+            .catch(error => {
+                showError('An error occurred. Please try again.');
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,59 @@
+[x-cloak] { 
+    display: none !important; 
+}
+
+.password-input-wrapper {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6B7280;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.toggle-password:hover {
+    color: #4B5563;
+    background-color: #F3F4F6;
+}
+
+.password-input {
+    padding-right: 40px !important;
+}
+
+/* Bootstrap overrides for reset-password page */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    border-radius: 10px 10px 0 0 !important;
+    padding: 20px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #007bff;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+}
+
+.alert {
+    display: none;
+    margin-top: 20px;
+} 

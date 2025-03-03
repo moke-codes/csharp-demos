@@ -1,0 +1,77 @@
+@LoginDemo_HostAddress = http://localhost:5225
+
+GET {{LoginDemo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+### Variables
+@baseUrl = https://localhost:7081
+@token = your_jwt_token_here
+
+### Register a new user
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "YourStrongPassword123!",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "YourStrongPassword123!",
+  "rememberMe": true
+}
+
+### Forgot Password
+POST {{baseUrl}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}
+
+### Reset Password
+POST {{baseUrl}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "token": "your_reset_token_here",
+  "newPassword": "NewStrongPassword123!"
+}
+
+### Get User Profile (requires authentication)
+GET {{baseUrl}}/api/auth/profile
+Authorization: Bearer {{token}}
+
+### Update User Profile (requires authentication)
+PUT {{baseUrl}}/api/auth/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### Change Password (requires authentication)
+POST {{baseUrl}}/api/auth/change-password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPassword": "CurrentPassword123!",
+  "newPassword": "NewPassword123!"
+}
+
+### Logout (requires authentication)
+POST {{baseUrl}}/api/auth/logout
+Authorization: Bearer {{token}}
+
+###

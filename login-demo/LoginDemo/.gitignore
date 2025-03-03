@@ -1,0 +1,78 @@
+# User secrets
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Ll]ogs.*
+[Ll]og.*
+[Ll]og
+[Ll]ogs
+[Ll]og.txt
+[Ll]ogs.txt
+[Ll]og.txt.*
+[Ll]ogs.txt.*
+[Ll]og.txt
+[Ll]ogs.txt
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Visual Studio Code files
+.vscode/
+*.code-workspace
+
+# Rider
+.idea/
+*.sln.iml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~ 
